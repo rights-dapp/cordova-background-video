@@ -1,22 +1,22 @@
 # cordova-background-video
 
-##### A simple Cordova/Phonegap plugin to capture video and then display it onscreen via a transparent overlay without affecting app functionality.
+##### A simple Cordova/Phonegap plugin to capture video and then display it onscreen via a transparent overlay without affecting app functionality. (this plugin is for only iOS now.)
 
 
 ## How to use
 ### Install
 ```
-cordova plugin add https://github.com/mlingos/backgroundvideo.git
+cordova plugin add https://github.com/rights-dapp/cordova-background-video.git
 ```
 ### Usage
 ```
-cordova.plugins.backgroundvideo.start(fileStorage, filename, camera, quality, successfn, errorfn);
+cordova.plugins.backgroundvideo.start(filename, camera, x, y, width. height successfn, errorfn);
 ```
 
 ### Getting started
 ###### start recording
 ```
-cordova.plugins.backgroundvideo.start('cacheDirectory', 'myvideo', 'front', 'medium', null, null);
+cordova.plugins.backgroundvideo.start('myvideo', 'front', 0, 0, 300, 300, null, null);
 ```
 ###### stop recording
 ```
