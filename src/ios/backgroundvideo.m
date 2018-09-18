@@ -25,7 +25,7 @@
 {
     //stop the device from being able to sleep
     [UIApplication sharedApplication].idleTimerDisabled = YES;
-    //fileStorage, filename, camera, quality
+
     self.token = [command.arguments objectAtIndex:0];
     self.camera = [command.arguments objectAtIndex:1];
 
@@ -72,22 +72,34 @@
     output.maxRecordedDuration = maxDuration;
     output.movieFragmentInterval = kCMTimeInvalid;
     
-    
-    if ( [session canAddOutput:output])
+    if ( [session canAddOutput:output]){
         [session addOutput:output];
-    
+    }
     
     //Capture audio input
     AVCaptureDevice *audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
     AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioCaptureDevice error:nil];
     
-    if ([session canAddInput:audioInput])
+    if ([session canAddInput:audioInput]){
         [session addInput:audioInput];
+    }
     
     //Capture device input
     AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:nil];
-    if ( [session canAddInput:deviceInput] )
+    if ( [session canAddInput:deviceInput] ){
         [session addInput:deviceInput];
+    }
+    
+    //Update output setting
+    [session beginConfiguration];
+
+    AVCaptureConnection *captureConnection;
+    captureConnection = [output connectionWithMediaType:AVMediaTypeVideo];
+    if ([captureConnection isVideoOrientationSupported]) {
+        [captureConnection setVideoOrientation:[self getCurrentOrientation]];
+    }
+
+    [session commitConfiguration];
     
     //preview view
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
